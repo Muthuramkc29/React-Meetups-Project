@@ -1,0 +1,24 @@
+.card {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  padding: 2rem;
+  margin: 3rem 0;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.img-wrapper {
+  width: 100%;
+}
+
+img {
+  width: 100%;
+}
