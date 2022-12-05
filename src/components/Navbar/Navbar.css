@@ -46,3 +46,11 @@
   padding: 0 1rem;
   margin-left: 0.5rem;
 }
+
+.favCount {
+  background-color: #cc2062;
+  color: #fcb8d2;
+  padding: 6px;
+  border-radius: 20px;
+  margin-left: 10px;
+}
