@@ -11,7 +11,7 @@ function Card({ meetup, addFavourites, favourites, removeFavourites }) {
   const [isFavourite, setIsFavourite] = useState(false);
 
   function isFavouriteFn(id) {
-    return favourites.some((fav) => fav.id === id);
+    return favourites.some((fav) => fav === id);
   }
 
   useEffect(() => {
@@ -19,12 +19,10 @@ function Card({ meetup, addFavourites, favourites, removeFavourites }) {
   }, []);
 
   const onClickFn = () => {
-    // console.log(isFavourite);
     if (!isFavourite) {
       setIsFavourite((prev) => !prev);
-      addFavourites(meetup);
+      addFavourites(meetup.id);
     } else {
-      console.log("remove");
       removeFavourites(meetup.id);
       setIsFavourite((prev) => !prev);
     }

@@ -4,20 +4,19 @@ import MeetUpForm from "../components/MeetUpForm/MeetUpForm";
 
 function AddMeetups() {
   const navigate = useNavigate();
+  const URL = process.env.REACT_APP_API_URL;
 
   const submitHandler = async (formData) => {
-    await fetch(
-      "https://react-app-f7a02-default-rtdb.firebaseio.com/meetups.json",
-      {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => console.log(res));
+    await fetch(`${URL}/meetups.json`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
 
-    console.log(formData);
     navigate("/");
   };
   return (

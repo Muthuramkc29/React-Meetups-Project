@@ -1,20 +1,40 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MeetUpList from "../components/MeetUpList/MeetUpList";
-import FavouriteContext from "../context/FavouriteContextProvider";
+import { fetchData } from "../helpers/helpers";
+import { setMeetups } from "../redux/actions/allMeetups.action";
 
 function Favourites(props) {
-  console.log(props.favourites);
+  const [loading, setLoading] = useState(false);
+  const favouritesId = props.favourites;
+
+  useEffect(() => {
+    fetchData(props, setLoading);
+  }, []);
+
+  const favs = props.allMeetups.reduce((acc, curr) => {
+    if (favouritesId.includes(curr.id)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   return (
     <div>
-      {props.favouritesCount === 0 && <p>No favourites added so far...</p>}
-      <MeetUpList meetups={props.favourites} />
+      {loading && favs.length === 0 && <p>Loading...</p>}
+      {favs.length === 0 && !loading && <p>No favourites added so far...</p>}
+      <MeetUpList meetups={favs} />
     </div>
   );
 }
 
-const mapStateToProps = ({ favourites }) => ({
+const mapDispatchToProps = (dispatch) => ({
+  setMeetups: (meetups) => dispatch(setMeetups(meetups)),
+});
+
+const mapStateToProps = ({ allMeetups, favourites }) => ({
+  allMeetups,
   favourites,
 });
 
-export default connect(mapStateToProps, null)(Favourites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

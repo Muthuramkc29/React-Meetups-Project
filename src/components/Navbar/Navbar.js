@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import FavouriteContext from "../../context/FavouriteContextProvider";
 import "./Navbar.css";
 
 function Navbar(props) {
-  const context = useContext(FavouriteContext);
   return (
     <div>
       <header className="header">
