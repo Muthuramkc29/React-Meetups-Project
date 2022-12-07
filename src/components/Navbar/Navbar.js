@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import FavouriteContext from "../../store/FavouriteContextProvider";
+import FavouriteContext from "../../context/FavouriteContextProvider";
 import "./Navbar.css";
 
-function Navbar() {
+function Navbar(props) {
   const context = useContext(FavouriteContext);
   return (
     <div>
@@ -19,7 +20,7 @@ function Navbar() {
             </li>
             <li>
               <Link to="/favourites">My Favorites</Link>
-              <span className="favCount">{context.favouritesCount}</span>
+              <span className="favCount">{props.favouritesCount}</span>
             </li>
           </ul>
         </nav>
@@ -28,4 +29,8 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+const mapStateToProps = ({ favouritesCount }) => ({
+  favouritesCount,
+});
+
+export default connect(mapStateToProps, null)(Navbar);

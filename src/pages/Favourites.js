@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
+import { connect } from "react-redux";
 import MeetUpList from "../components/MeetUpList/MeetUpList";
-import FavouriteContext from "../store/FavouriteContextProvider";
+import FavouriteContext from "../context/FavouriteContextProvider";
 
-function Favourites() {
-  const context = useContext(FavouriteContext);
-
+function Favourites(props) {
+  console.log(props.favourites);
   return (
     <div>
-      {context.favouritesCount === 0 && <p>No favourites added so far...</p>}
-      <MeetUpList meetups={context.favourites} />
+      {props.favouritesCount === 0 && <p>No favourites added so far...</p>}
+      <MeetUpList meetups={props.favourites} />
     </div>
   );
 }
 
-export default Favourites;
+const mapStateToProps = ({ favourites }) => ({
+  favourites,
+});
+
+export default connect(mapStateToProps, null)(Favourites);

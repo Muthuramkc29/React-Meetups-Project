@@ -1,21 +1,32 @@
-import React, { useContext } from "react";
-import FavouriteContext from "../../store/FavouriteContextProvider";
-// import FavouriteContext from "../../store/FavouriteContextProvider";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import {
+  addFavourites,
+  removeFavourites,
+} from "../../redux/actions/allMeetups.action";
 import Button from "../Button/Button";
 import "./Card.css";
 
-function Card({ meetup }) {
-  const context = useContext(FavouriteContext);
+function Card({ meetup, addFavourites, favourites, removeFavourites }) {
+  const [isFavourite, setIsFavourite] = useState(false);
 
-  const isItemFavourite = context.isItemFavourite(meetup.id);
+  function isFavouriteFn(id) {
+    return favourites.some((fav) => fav.id === id);
+  }
+
+  useEffect(() => {
+    setIsFavourite(isFavouriteFn(meetup.id));
+  }, []);
 
   const onClickFn = () => {
-    console.log(isItemFavourite);
-    if (!isItemFavourite) {
-      console.log(meetup);
-      context.addFavourites(meetup);
+    // console.log(isFavourite);
+    if (!isFavourite) {
+      setIsFavourite((prev) => !prev);
+      addFavourites(meetup);
     } else {
-      context.removeFavourites(meetup.id);
+      console.log("remove");
+      removeFavourites(meetup.id);
+      setIsFavourite((prev) => !prev);
     }
 
     window.scrollTo({
@@ -37,7 +48,7 @@ function Card({ meetup }) {
           <div onClick={onClickFn}>
             <Button
               btnText={
-                isItemFavourite ? "Remove from Favourites" : "Add to Favourites"
+                isFavourite ? "Remove from Favourites" : "Add to Favourites"
               }
             />
           </div>
@@ -47,4 +58,14 @@ function Card({ meetup }) {
   );
 }
 
-export default Card;
+const mapDispatchToProps = (dispatch) => ({
+  addFavourites: (meetupId) => dispatch(addFavourites(meetupId)),
+  removeFavourites: (meetupId) => dispatch(removeFavourites(meetupId)),
+});
+
+const mapStateToProps = ({ isFavourite, favourites }) => ({
+  isFavourite,
+  favourites,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);
